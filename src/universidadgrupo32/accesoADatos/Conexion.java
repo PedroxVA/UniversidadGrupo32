@@ -6,8 +6,6 @@
 package universidadgrupo32.accesoADatos;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 /**
@@ -31,7 +29,6 @@ public class Conexion {
                 Class.forName("org.mariadb.jdbc.Driver");
                 connection =DriverManager.getConnection(URL+DB, USUARIO, PASSWORD);
                 
-                
             } catch (ClassNotFoundException ex) {
                JOptionPane.showMessageDialog(null, "Error al cargar los drivers"); 
             } catch (SQLException ex) {
@@ -41,5 +38,8 @@ public class Conexion {
         
         return connection;
     }
-    
+    public static void main(String[] args) {
+        Conexion.getConexion();
+       
+    }
 }
