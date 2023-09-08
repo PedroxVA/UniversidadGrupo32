@@ -38,8 +38,4 @@ public class Conexion {
         
         return connection;
     }
-    public static void main(String[] args) {
-        Conexion.getConexion();
-       
-    }
 }
