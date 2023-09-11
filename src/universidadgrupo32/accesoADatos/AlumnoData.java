@@ -86,35 +86,34 @@ public class AlumnoData {
         
     }
     
-    public Alumno buscarAlumno(int id){
-        String sql = "SELECT dni, apellido, nombre, fechaNacimiento FROM alumno WHERE idAlumno = ? AND estado = 1";
-        Alumno alumno = null;
-        
-        PreparedStatement ps;
-        try {
-            ps = con.prepareStatement(sql);
+ public Alumno buscarAlumno(int id){
+        String sql="SELECT dni,apellido,nombre, fechaNacimiento FROM alumno WHERE idAlumno =? AND estado =1";
+        Alumno alumno=null;
+        try{
+            PreparedStatement ps=con.prepareStatement(sql);
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            
+            ResultSet rs=ps.executeQuery();
             if(rs.next()){
-                alumno = new Alumno();
+                
+                alumno=new Alumno();
                 alumno.setIdAlumno(id);
-                alumno.setApellido(rs.getString("apellido"));
-                alumno.setNombre(rs.getString("nombre"));
-                alumno.setDni(rs.getInt("dni"));
-                alumno.setFechaNac(rs.getDate("fechaNacimiento").toLocalDate());
+                alumno.setDni(rs.getInt("dni "));
+                alumno.setApellido(rs.getString("apellido "));
+                alumno.setNombre(rs.getString("nombre "));
+                alumno.setFechaNac(rs.getDate("fechaNacimiento ").toLocalDate());
                 alumno.setActivo(true);
-            }else{
-                JOptionPane.showMessageDialog(null, "No existe el alumno");
+                
+            } else {
+                JOptionPane.showMessageDialog(null,"No existe ese alumno");
             }
             ps.close();
+        } catch (SQLException ex){
+            JOptionPane.showMessageDialog(null,"Error al acceder a la tabla alumno");
             
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumno.");
         }
         return alumno;
+   
     }
-    
     
     
     public static void main(String[] args) {
