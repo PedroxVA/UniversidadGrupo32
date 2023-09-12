@@ -6,7 +6,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -176,21 +175,24 @@ public class AlumnoData {
     public static void main(String[] args) {
         //Alumno juan = new Alumno(333, "Armando", "Mesas", LocalDate.of(2003, 10, 19), true);
         //AlumnoData alu = new AlumnoData();
-        //List<Alumno> listaAlumnos = alu.listarAlumnos();
-        //for (Alumno alumno : listaAlumnos) {
-        //    System.out.println("Apellido: "+alumno.getApellido());
-        //    System.out.println("-------");
-        //}
+        
+        //-----------------------------------------------------------------------------//
+        
         //alu.guardarAlumno(juan);
         //alu.modificarAlumno(juan);
         //alu.eliminarAlumno(1);
+        
         //Alumno aluEncontrado = alu.buscarAlumnoPorDni(111);
         //if (aluEncontrado != null){
         //    System.out.println("Dni: "+aluEncontrado.getDni());
         //    System.out.println("Apellido: "+aluEncontrado.getApellido());
         //}
 
-        
+        //List<Alumno> listaAlumnos = alu.listarAlumnos();
+        //for (Alumno alumno : listaAlumnos) {
+        //    System.out.println("Apellido: "+alumno.getApellido());
+        //    System.out.println("-------");
+        //}
     }
 }
 
