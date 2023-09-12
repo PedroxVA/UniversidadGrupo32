@@ -7,8 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import org.mariadb.jdbc.Statement;
 import universidadgrupo32.entidades.Alumno;
@@ -87,20 +87,49 @@ public class AlumnoData {
     }
     
  public Alumno buscarAlumno(int id){
-        String sql="SELECT dni,apellido,nombre, fechaNacimiento FROM alumno WHERE idAlumno =? AND estado =1";
+        String sql="SELECT dni,apellido,nombre, fechaNacimiento FROM alumno WHERE idAlumno = ? AND estado = 1";
         Alumno alumno=null;
         try{
-            PreparedStatement ps=con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, id);
             ResultSet rs=ps.executeQuery();
             if(rs.next()){
                 
                 alumno=new Alumno();
                 alumno.setIdAlumno(id);
-                alumno.setDni(rs.getInt("dni "));
-                alumno.setApellido(rs.getString("apellido "));
-                alumno.setNombre(rs.getString("nombre "));
-                alumno.setFechaNac(rs.getDate("fechaNacimiento ").toLocalDate());
+                alumno.setDni(rs.getInt("dni"));
+                alumno.setApellido(rs.getString("apellido"));
+                alumno.setNombre(rs.getString("nombre"));
+                alumno.setFechaNac(rs.getDate("fechaNacimiento").toLocalDate());
+                alumno.setActivo(true);
+                
+            } else {
+                JOptionPane.showMessageDialog(null,"No existe ese alumno");
+            }
+            ps.close();
+        } catch (SQLException ex){
+            JOptionPane.showMessageDialog(null,"Error al acceder a la tabla alumno"+ex.getMessage());
+            
+        }
+        return alumno;
+   
+    }
+ 
+ public Alumno buscarAlumnoPorDni(int dni){
+        String sql="SELECT idAlumno, dni, apellido, nombre, fechaNacimiento FROM alumno WHERE dni = ? AND estado = 1";
+        Alumno alumno=null;
+        try{
+            PreparedStatement ps=con.prepareStatement(sql);
+            ps.setInt(1, dni);
+            ResultSet rs=ps.executeQuery();
+            if(rs.next()){
+                
+                alumno=new Alumno();
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setDni(dni);
+                alumno.setApellido(rs.getString("apellido"));
+                alumno.setNombre(rs.getString("nombre"));
+                alumno.setFechaNac(rs.getDate("fechaNacimiento").toLocalDate());
                 alumno.setActivo(true);
                 
             } else {
@@ -114,14 +143,53 @@ public class AlumnoData {
         return alumno;
    
     }
+ 
+ public List<Alumno> listarAlumnos(){
+        String sql="SELECT idAlumno, dni, apellido, nombre, fechaNacimiento FROM alumno WHERE estado = 1";
+        ArrayList<Alumno> alumnos=new ArrayList();
+        try{
+            PreparedStatement ps=con.prepareStatement(sql);
+            ResultSet rs=ps.executeQuery();
+            
+            while(rs.next()){
+                
+                Alumno alumno=new Alumno();
+                alumno.setIdAlumno(rs.getInt("idAlumno"));
+                alumno.setDni(rs.getInt("dni"));
+                alumno.setApellido(rs.getString("apellido"));
+                alumno.setNombre(rs.getString("nombre"));
+                alumno.setFechaNac(rs.getDate("fechaNacimiento").toLocalDate());
+                alumno.setActivo(true);
+                
+                alumnos.add(alumno);
+        }
+            ps.close();
+        } catch (SQLException ex){
+            JOptionPane.showMessageDialog(null,"Error al acceder a la tabla alumno");
+            
+        }
+        return alumnos;
+   
+    }
     
     
     public static void main(String[] args) {
-        Alumno juan = new Alumno(1, 12312312, "Luna", "Juan Pedro", LocalDate.of(1980, 4, 25), true);
-        AlumnoData alu = new AlumnoData();
+        //Alumno juan = new Alumno(333, "Armando", "Mesas", LocalDate.of(2003, 10, 19), true);
+        //AlumnoData alu = new AlumnoData();
+        //List<Alumno> listaAlumnos = alu.listarAlumnos();
+        //for (Alumno alumno : listaAlumnos) {
+        //    System.out.println("Apellido: "+alumno.getApellido());
+        //    System.out.println("-------");
+        //}
         //alu.guardarAlumno(juan);
         //alu.modificarAlumno(juan);
-        alu.eliminarAlumno(1);
+        //alu.eliminarAlumno(1);
+        //Alumno aluEncontrado = alu.buscarAlumnoPorDni(111);
+        //if (aluEncontrado != null){
+        //    System.out.println("Dni: "+aluEncontrado.getDni());
+        //    System.out.println("Apellido: "+aluEncontrado.getApellido());
+        //}
+
         
     }
 }
