@@ -40,7 +40,7 @@ public class AlumnoData {
                 alumno.setIdAlumno(rs.getInt(1));
                  JOptionPane.showMessageDialog(null, "Alumno Guardado!");
             }
-            
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumno.");
         }      
