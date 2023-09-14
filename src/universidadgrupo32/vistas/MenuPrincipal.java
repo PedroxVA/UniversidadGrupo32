@@ -58,6 +58,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu1.setText("Alumnos");
 
         jMenuItem2.setText("Formulario de Alumno");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem2);
 
         jMenuBar1.add(jMenu1);
@@ -108,6 +113,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+                   // TODO add your handling code here:
+        escritorio.removeAll();
+        escritorio.repaint();
+        GestionDeAlumnos gda=new GestionDeAlumnos();
+        gda.setVisible(true);
+        escritorio.add(gda);
+        gda.moveToFront();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments
