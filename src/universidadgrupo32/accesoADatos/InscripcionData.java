@@ -7,9 +7,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import universidadgrupo32.entidades.Alumno;
 import universidadgrupo32.entidades.Inscripcion;
@@ -50,7 +49,7 @@ public class InscripcionData {
     
         
     }
-    //-----------------------------------------//
+
     public void borrarInscripcionMateriaAlumno(int idAlumno, int idMateria){
         String sql = "DELETE FROM inscripcion WHERE idAlumno = ? AND idMateria = ?";
         try {
@@ -59,7 +58,7 @@ public class InscripcionData {
             ps.setInt(2, idMateria);
             int exito = ps.executeUpdate();
             
-            if (exito==1){
+            if (exito>0){
                 JOptionPane.showMessageDialog(null, "La inscripción ha sido eliminada.");
             } else{
                 JOptionPane.showMessageDialog(null, "Inscripción no encontrada");
@@ -69,7 +68,7 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error al cargar la tabla inscripción "+ ex.getMessage());
         }
         }
-    
+
     public void actualizarNota(int idAlumno, int idMateria, double nota){
         String sql = "UPDATE inscripcion SET nota = ? WHERE idAlumno = ? AND idMateria = ?";
         
@@ -77,10 +76,10 @@ public class InscripcionData {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setDouble(1, nota);
             ps.setInt(2, idAlumno);
-            ps.setInt(3, idAlumno);
+            ps.setInt(3, idMateria);
             int exito = ps.executeUpdate();
             
-            if (exito==1){
+            if (exito>0){
                 JOptionPane.showMessageDialog(null, "La nota se ha actualizado exitosamente!.");
             } else{
                 JOptionPane.showMessageDialog(null, "Inscripción no encontrada");
@@ -90,9 +89,9 @@ public class InscripcionData {
             JOptionPane.showMessageDialog(null, "Error al cargar la tabla inscripción "+ ex.getMessage());
         }
     }
-    
+
     public List<Inscripcion> obtenerInscripciones(){
-        String sql = "SELECT idInscripto, nota, idAlumno, idMateria FROM inscripciones";
+        String sql = "SELECT idInscripto, nota, idAlumno, idMateria FROM inscripcion";
         ArrayList<Inscripcion> listaInscripciones = new ArrayList();
         
         try {
@@ -115,9 +114,9 @@ public class InscripcionData {
         }
         return listaInscripciones;
 }
-    
+ 
     public List<Inscripcion> obtenerInscripcionesPorAlumno(int id){
-        String sql = "SELECT idInscripto, nota, idAlumno, idMateria FROM inscripciones WHERE idAlumno = ?";
+        String sql = "SELECT idInscripto, nota, idAlumno, idMateria FROM inscripcion WHERE idAlumno = ?";
         ArrayList<Inscripcion> listaInscripciones = new ArrayList();
         
         try {
@@ -141,8 +140,11 @@ public class InscripcionData {
         }
         return listaInscripciones;
 }
+                 
     public List<Materia> obtenerMateriasCursadas(int id){
-        String sql = "SELECT idMateria FROM inscripciones WHERE idAlumno = ?";
+        String sql = "SELECT inscripcion.idMateria, nombre, anio FROM inscripcion, materia "
+                + "WHERE inscripcion.idMateria = materia.idMateria "
+                + "AND inscripcion.idAlumno = ?";
         ArrayList<Materia> listaMateriasCursadas = new ArrayList();
         
         try {
@@ -152,7 +154,7 @@ public class InscripcionData {
             
             while(rs.next()){
                 Materia materia = matData.buscarMateria(rs.getInt("idMateria"));
-                listaMateriasCursadas.add(materia);
+                listaMateriasCursadas.add(materia); //diff
             } 
             ps.close();
         } catch (SQLException ex) {
@@ -160,8 +162,8 @@ public class InscripcionData {
         }
         return listaMateriasCursadas;
     }
-    
-    public List<Materia> obtenerMateriasNOCursadas(int id){
+
+    public List<Materia> obtenerMateriasNOCursadas(int id){ //diff
         List<Materia> listaMateriasCursadas = obtenerMateriasCursadas(id);
         List<Materia> listaMaterias = matData.listarMaterias();
         listaMaterias.removeAll(listaMateriasCursadas);
@@ -171,8 +173,8 @@ public class InscripcionData {
     
     public List<Alumno> obtenerAlumnosXMateria(int idMateria){
         String sql = "SELECT alumno.idAlumno, alumno.dni, alumno.apellido, alumno.nombre, alumno.fechaNacimiento "
-                   + "FROM alumno" 
-                   + "JOIN inscripcion ON alumno.idAlumno = inscripcion.idAlumno" 
+                   + "FROM alumno " 
+                   + "JOIN inscripcion ON alumno.idAlumno = inscripcion.idAlumno " 
                    + "WHERE inscripcion.idMateria = ? AND alumno.estado = 1";
         ArrayList<Alumno> listaAlumnos = new ArrayList<>();
         
@@ -188,7 +190,7 @@ public class InscripcionData {
                 alumno.setApellido(rs.getString("apellido"));
                 alumno.setNombre(rs.getString("nombre"));
                 alumno.setFechaNac(rs.getDate("fechaNacimiento").toLocalDate());
-                alumno.setActivo(true);
+                alumno.setActivo(rs.getBoolean("estado"));
                 listaAlumnos.add(alumno);
             }
             
@@ -202,18 +204,49 @@ public class InscripcionData {
     public static void main(String[] args) {
         AlumnoData alumno = new AlumnoData();
         MateriaData materia = new MateriaData();
-        InscripcionData incs = new InscripcionData(materia, alumno);
+        InscripcionData insc = new InscripcionData(materia, alumno);
         
         
-        Alumno a1 = incs.aluData.buscarAlumno(5);
-        System.out.println(a1);
-        Materia m1 = incs.matData.buscarMateria(6);
-        System.out.println(m1);
+        //Alumno a1 = incs.aluData.buscarAlumno(4);
+        //System.out.println(a1);
+        //Materia m1 = incs.matData.buscarMateria(6);
+        //System.out.println(m1);
    
-        Inscripcion i1 = new Inscripcion(a1, m1, 10.0);
+        //Inscripcion i1 = new Inscripcion(a1, m1, 10.0);
         
-        //incs.guardarInscripcion(i1);
+        //insc.guardarInscripcion(i1);
+        //insc.borrarInscripcionMateriaAlumno(4, 6);
+        //insc.actualizarNota(5, 6, 5);
         
+        //List<Inscripcion> listaInscripciones = insc.obtenerInscripciones();
+        //for (Inscripcion x : listaInscripciones) {
+        //    System.out.println("idInscripto: "+x.getIdInscripcion());
+        //    System.out.println("---");
+        //}
+        
+        //List<Inscripcion> listaInscripciones = insc.obtenerInscripcionesPorAlumno(3);
+        //for (Inscripcion x : listaInscripciones) {
+        //System.out.println("idInscripto: "+x.getIdInscripcion());
+        //System.out.println("---");
+        //}
+        
+        //List<Materia> listaMaterias = insc.obtenerMateriasCursadas(3);
+        //for (Materia x : listaMaterias) {
+        //System.out.println("Materia: "+x.getNombre());
+        //System.out.println("---");
+        //}
+        
+        //List<Materia> listaMaterias = insc.obtenerMateriasNOCursadas(3);
+        //for (Materia x : listaMaterias) {
+        //System.out.println("Materia: "+x.getNombre());
+        //System.out.println("---");
+        //}
+        
+        //List<Alumno> listaAlumnos = insc.obtenerAlumnosXMateria(6);
+        //for (Alumno x : listaAlumnos) {
+        //    System.out.println("Alumno: "+x.getNombre());
+        //    System.out.println("---");
+        //}
     }
 }
 

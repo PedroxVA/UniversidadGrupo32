@@ -56,6 +56,30 @@ public class Materia {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
+    //hashcode para poder usar el removeall() en InscripcionData;
+    @Override
+    public int hashCode() {
+        return super.hashCode(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    //equals para lo mismo;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Materia other = (Materia) obj;
+        if (this.idMateria != other.idMateria) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {
