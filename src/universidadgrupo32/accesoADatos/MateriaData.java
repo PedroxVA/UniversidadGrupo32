@@ -34,6 +34,7 @@ public class MateriaData {
                 materia.setIdMateria(rs.getInt(1));
                 JOptionPane.showMessageDialog(null, "Materia Guardada!");
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar la tabla materia");
         }
@@ -53,7 +54,7 @@ public class MateriaData {
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Materia modificada con exito!");
             }
-            
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar la tabla materia");
         }
@@ -71,7 +72,7 @@ public class MateriaData {
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Materia eliminada logicamente");
             }
-            
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar la tabla materia");
         }
@@ -88,6 +89,7 @@ public class MateriaData {
             
             if(rs.next()){
                 materia = new Materia();
+                materia.setIdMateria(id);
                 materia.setNombre(rs.getString("nombre"));
                 materia.setAnioMateria(rs.getInt("anio"));
                 materia.setActivo(true);
@@ -117,7 +119,7 @@ public class MateriaData {
                 
                 listaMaterias.add(materia);
             }
-            
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al cargar la tabla materia"+ex.getMessage());//getmessage es muy útil
         }

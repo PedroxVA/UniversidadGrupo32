@@ -62,6 +62,7 @@ public class AlumnoData {
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Alumno modificado con exito!");
             }
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumno.");
         }
@@ -78,7 +79,7 @@ public class AlumnoData {
             if(exito==1){
                 JOptionPane.showMessageDialog(null, "Alumno Eliminado.");
             }
-            
+            ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumno.");
         }
