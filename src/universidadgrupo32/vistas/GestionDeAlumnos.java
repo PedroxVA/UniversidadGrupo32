@@ -5,11 +5,18 @@
  */
 package universidadgrupo32.vistas;
 
+import java.sql.Date;
+import javax.swing.JOptionPane;
+import universidadgrupo32.accesoADatos.AlumnoData;
+import universidadgrupo32.entidades.Alumno;
+
 /**
  *
  * @author jfneg
  */
 public class GestionDeAlumnos extends javax.swing.JInternalFrame {
+
+    private AlumnoData alu = new AlumnoData();
 
     /**
      * Creates new form GestionDeAlumnos
@@ -38,7 +45,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         jTApellido = new javax.swing.JTextField();
         jTNombre = new javax.swing.JTextField();
         jREstado = new javax.swing.JRadioButton();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
+        jDCFechaNac = new com.toedter.calendar.JDateChooser();
         jBBuscar = new javax.swing.JButton();
         jBNuevo = new javax.swing.JButton();
         jBEliminar = new javax.swing.JButton();
@@ -89,8 +96,18 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         });
 
         jBNuevo.setText("Nuevo");
+        jBNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBNuevoActionPerformed(evt);
+            }
+        });
 
         jBEliminar.setText("Eliminar");
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
 
         jBGuardar.setText("Guardar");
 
@@ -126,7 +143,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jREstado)
-                            .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(10, 10, 10)
                                 .addComponent(jBEliminar)
@@ -160,7 +177,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel7)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNuevo)
@@ -186,7 +203,39 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         // TODO add your handling code here:
+        //try-catch para mantener el funcionamiento siempre
+        try {
+            //se recibe el dni del jtext, se lo limpia de espacios
+            String stringDni = jTDocumento.getText().replaceAll(" ", "");
+            //y se lo parsea a Int
+            int dni = Integer.valueOf(stringDni); 
+            
+            //Luego se colocan los datos en sus respectivos campos.
+            Alumno alumno = alu.buscarAlumnoPorDni(dni);
+            jTApellido.setText(alumno.getApellido());
+                jTNombre.setText(alumno.getNombre());
+                jREstado.setSelected(alumno.getActivo());
+                jDCFechaNac.setDate(Date.valueOf(alumno.getFechaNac()));
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "ERROR, campo DNI vacío.");
+        } catch (NullPointerException e) {
+        }
     }//GEN-LAST:event_jBBuscarActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+        // TODO add your handling code here:
+        int dni = Integer.valueOf(jTDocumento.getText());
+        alu.eliminarAlumno(dni);
+    }//GEN-LAST:event_jBEliminarActionPerformed
+
+    private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
+        // TODO add your handling code here:
+        jTDocumento.setText(null);
+        jTNombre.setText(null);
+        jTApellido.setText(null);
+        jREstado.setSelected(false);
+        jDCFechaNac.setDate(null);
+    }//GEN-LAST:event_jBNuevoActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -194,7 +243,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBEliminar;
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jBNuevo;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
+    private com.toedter.calendar.JDateChooser jDCFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
