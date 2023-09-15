@@ -208,8 +208,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
             //se recibe el dni del jtext, se lo limpia de espacios
             String stringDni = jTDocumento.getText().replaceAll(" ", "");
             //y se lo parsea a Int
-            int dni = Integer.valueOf(stringDni); 
-            
+            int dni = Integer.parseInt(stringDni); 
             //Luego se colocan los datos en sus respectivos campos.
             Alumno alumno = alu.buscarAlumnoPorDni(dni);
             jTApellido.setText(alumno.getApellido());
@@ -217,9 +216,11 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                 jREstado.setSelected(alumno.getActivo());
                 jDCFechaNac.setDate(Date.valueOf(alumno.getFechaNac()));
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "ERROR, campo DNI vacío.");
+            JOptionPane.showMessageDialog(null, "ERROR, campo Dni vacío o con letras.");
+            
         } catch (NullPointerException e) {
         }
+        
     }//GEN-LAST:event_jBBuscarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
