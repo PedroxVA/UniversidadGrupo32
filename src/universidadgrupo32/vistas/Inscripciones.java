@@ -25,6 +25,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         initComponents(); 
         armarTabla();
         cargarCombo();
+        cargarDatos();
     }
 
     
@@ -196,6 +197,10 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         for (Alumno alumno : listaAlumnos) {
             jComboBox1.addItem(alumno);
         }
+    }
+    
+    private void cargarDatos(){
+        
     }
 }
 
