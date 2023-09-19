@@ -77,6 +77,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenu3.setText("Administración");
 
         jMenuItem4.setText("Manejo de Inscripciones");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
         jMenu3.add(jMenuItem4);
 
         jMenuItem5.setText("Manipulación de Notas");
@@ -123,6 +128,15 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(gda);
         gda.moveToFront();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        Inscripciones imat=new Inscripciones();
+        imat.setVisible(true);
+        escritorio.add(imat);
+        imat.moveToFront();
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
