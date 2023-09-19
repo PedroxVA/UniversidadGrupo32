@@ -68,6 +68,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Materia");
+        jMenu2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu2ActionPerformed(evt);
+            }
+        });
 
         jMenuItem3.setText("Formulario de Materia");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +162,24 @@ public class MenuPrincipal extends javax.swing.JFrame {
         escritorio.add(notas);
         notas.moveToFront();
     }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jMenu2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu2ActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        GestionDeMaterias gdm=new GestionDeMaterias();
+        gdm.setVisible(true);
+        escritorio.add(gdm);
+        gdm.moveToFront();
+    }//GEN-LAST:event_jMenu2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        escritorio.removeAll();
+        escritorio.repaint();
+        GestionDeMaterias gdm=new GestionDeMaterias();
+        gdm.setVisible(true);
+        escritorio.add(gdm);
+        gdm.moveToFront();        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
      * @param args the command line arguments
