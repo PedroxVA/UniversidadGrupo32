@@ -5,7 +5,10 @@
  */
 package universidadgrupo32.vistas;
 
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import universidadgrupo32.accesoADatos.AlumnoData;
+import universidadgrupo32.entidades.Alumno;
 
 /**
  *
@@ -13,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Inscripciones extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo=new DefaultTableModel();
+    private AlumnoData aluData = new AlumnoData();
     
     /**
      * Creates new form Inscripciones
@@ -20,6 +24,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
     public Inscripciones() {
         initComponents(); 
         armarTabla();
+        cargarCombo();
     }
 
     
@@ -167,7 +172,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBAnular;
     private javax.swing.JButton jBInscribir;
     private javax.swing.JButton jBSalir;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<Alumno> jComboBox1;
     private javax.swing.JLabel jLFormularioInscrip;
     private javax.swing.JLabel jLListadoMaterias;
     private javax.swing.JLabel jLMateriasInscriptas;
@@ -186,6 +191,11 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         jTTabla.setModel(modelo);
     }
     
-
+    private void cargarCombo(){
+        List<Alumno> listaAlumnos = aluData.listarAlumnos();
+        for (Alumno alumno : listaAlumnos) {
+            jComboBox1.addItem(alumno);
+        }
+    }
 }
 
