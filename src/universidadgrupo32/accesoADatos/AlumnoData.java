@@ -68,12 +68,12 @@ public class AlumnoData {
         }
     }
     
-    public void eliminarAlumno(int id){
-        String sql = "UPDATE alumno set estado= 0 WHERE idAlumno = ?";
+    public void eliminarAlumno(int dni){
+        String sql = "UPDATE alumno set estado= 0 WHERE dni = ?"; //se cambio el paramentro de id a dni
         
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
+            ps.setInt(1, dni);
             int exito = ps.executeUpdate();
             
             if(exito==1){

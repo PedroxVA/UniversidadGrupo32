@@ -5,6 +5,7 @@
  */
 package universidadgrupo32.vistas;
 
+import java.awt.HeadlessException;
 import java.sql.Date;
 import javax.swing.JOptionPane;
 import universidadgrupo32.accesoADatos.AlumnoData;
@@ -226,8 +227,17 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
         // TODO add your handling code here:
+         try {
+        
         int dni = Integer.valueOf(jTDocumento.getText());
         alu.eliminarAlumno(dni);
+        JOptionPane.showMessageDialog(null, "Alumno eliminado correctamente.");
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(null, "Por favor, ingresa un ID válido.");
+    } catch (HeadlessException ex) {
+        JOptionPane.showMessageDialog(null, "Error al eliminar el alumno: " + ex.getMessage());
+    }
+
     }//GEN-LAST:event_jBEliminarActionPerformed
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
