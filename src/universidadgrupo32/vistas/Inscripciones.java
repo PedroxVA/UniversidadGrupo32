@@ -5,10 +5,15 @@
  */
 package universidadgrupo32.vistas;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import universidadgrupo32.accesoADatos.AlumnoData;
+import universidadgrupo32.accesoADatos.InscripcionData;
+import universidadgrupo32.accesoADatos.MateriaData;
 import universidadgrupo32.entidades.Alumno;
+import universidadgrupo32.entidades.Inscripcion;
+import universidadgrupo32.entidades.Materia;
 
 /**
  *
@@ -17,6 +22,8 @@ import universidadgrupo32.entidades.Alumno;
 public class Inscripciones extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo=new DefaultTableModel();
     private AlumnoData aluData = new AlumnoData();
+    private MateriaData matData = new MateriaData();
+    private InscripcionData insData = new InscripcionData(matData, aluData);
     
     /**
      * Creates new form Inscripciones
@@ -25,7 +32,9 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         initComponents(); 
         armarTabla();
         cargarCombo();
-        cargarDatos();
+        jRMatInscriptas.setSelected(true);
+        borrarFilas();
+        cargarDatos();;
     }
 
     
@@ -63,6 +72,18 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        jRMatInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRMatInscriptasActionPerformed(evt);
+            }
+        });
+
+        jRMatNoInscriptas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRMatNoInscriptasActionPerformed(evt);
             }
         });
 
@@ -176,7 +197,23 @@ public class Inscripciones extends javax.swing.JInternalFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
+        borrarFilas();
+        cargarDatos();
     }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jRMatInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRMatInscriptasActionPerformed
+        // TODO add your handling code here:
+        jRMatNoInscriptas.setSelected(false);
+        borrarFilas();
+        cargarDatos();;
+    }//GEN-LAST:event_jRMatInscriptasActionPerformed
+
+    private void jRMatNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRMatNoInscriptasActionPerformed
+        // TODO add your handling code here:
+        jRMatInscriptas.setSelected(false);
+        borrarFilas();
+        cargarDatos();;
+    }//GEN-LAST:event_jRMatNoInscriptasActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -209,8 +246,36 @@ public class Inscripciones extends javax.swing.JInternalFrame {
             jComboBox1.addItem(alumno);
         }
     }
+    private void borrarFilas(){
+        int filas = jTTabla.getRowCount()-1;
+        for (int f = filas; f>=0; f--){
+            modelo.removeRow(f);
+        }
+    }
     
     private void cargarDatos(){
+        //Primero, obtener el alumno
+        Alumno alumno = (Alumno)jComboBox1.getSelectedItem();
+        //Luego su id;
+        int id = alumno.getIdAlumno();
+        
+        //Segundo, crear una lista de inscripcion usando el id;
+        List<Materia> listaMaterias = new ArrayList();
+        if (jRMatInscriptas.isSelected()){
+        listaMaterias = insData.obtenerMateriasCursadas(id);}
+        else if(jRMatNoInscriptas.isSelected()){
+        listaMaterias = insData.obtenerMateriasNOCursadas(id);
+        }
+        
+        //Tercero, cargar -----------cada inscripcion------------- a la tabla
+        //A traves de un bucle;
+        for (Materia mat : listaMaterias) {
+            int idMat = mat.getIdMateria();
+            String nombreMateria = mat.getNombre();
+            int anio = mat.getAnioMateria();
+            modelo.addRow(new Object[]{idMat,nombreMateria, anio});
+            
+        }
         
     }
 }

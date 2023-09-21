@@ -2,6 +2,7 @@
 package universidadgrupo32.entidades;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 /* @author PedroxVA */
 public class Alumno {
@@ -84,6 +85,45 @@ public class Alumno {
     @Override
     public String toString() {
         return "ID: "+idAlumno+" - "+ apellido+", "+ nombre ;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Alumno other = (Alumno) obj;
+        if (this.idAlumno != other.idAlumno) {
+            return false;
+        }
+        if (this.dni != other.dni) {
+            return false;
+        }
+        if (!Objects.equals(this.apellido, other.apellido)) {
+            return false;
+        }
+        if (!Objects.equals(this.nombre, other.nombre)) {
+            return false;
+        }
+        if (!Objects.equals(this.fechaNac, other.fechaNac)) {
+            return false;
+        }
+        if (!Objects.equals(this.activo, other.activo)) {
+            return false;
+        }
+        return true;
     }
 
     
