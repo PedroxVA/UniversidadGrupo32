@@ -195,6 +195,10 @@ public class AlumnoData {
         //    System.out.println("-------");
         //}
     }
+
+    public List<Alumno> listarAlumnosPorMateria(int idMateria) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
 
 

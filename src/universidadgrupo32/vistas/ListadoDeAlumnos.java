@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 package universidadgrupo32.vistas;
-
+import javax.swing.table.DefaultTableModel;
 import java.util.List;
 import universidadgrupo32.accesoADatos.AlumnoData;
 import universidadgrupo32.accesoADatos.MateriaData;
@@ -18,6 +18,8 @@ import universidadgrupo32.entidades.Materia;
 public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
 
         private MateriaData matData = new MateriaData();
+        private AlumnoData alumnoData = new AlumnoData();
+        private DefaultTableModel tableModel;
     /**
      * Creates new form ListadoDeAlumnos
      */
@@ -25,6 +27,7 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
         initComponents();
         cargarCombo();
         cargarDatos();
+        crearModeloTabla();
     }
 
     /**
@@ -51,6 +54,12 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
 
         jLSeleccionMat.setText("Seleccione una Materia: ");
 
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
         jTable1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(204, 204, 204), null, null));
         jTable1.setForeground(new java.awt.Color(0, 0, 255));
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
@@ -70,6 +79,15 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
 
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
+            }
+        });
+        jTable1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+                jTable1AncestorAdded(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
             }
         });
         jScrollPane1.setViewportView(jTable1);
@@ -144,6 +162,17 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jBSalirActionPerformed
 
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        
+        
+        cargarDatos();
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void jTable1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTable1AncestorAdded
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTable1AncestorAdded
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBSalir;
@@ -163,6 +192,25 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
     }
     
     private void cargarDatos(){
+         tableModel.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+    Materia selectedMateria = (Materia) jComboBox1.getSelectedItem();
+    if (selectedMateria != null) {
+        List<Alumno> alumnos = alumnoData.listarAlumnosPorMateria(selectedMateria.getIdMateria());
+        for (Alumno alumno : alumnos) {
+            tableModel.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
+        }
+    }
+}
+    
+    
+    private void crearModeloTabla() {
+        tableModel = new DefaultTableModel();
+        tableModel.addColumn("Id");
+          tableModel.addColumn("DNI");
+            tableModel.addColumn("Apellido");
+              tableModel.addColumn("Nombre");
+              jTable1.setModel(tableModel);
         
     }
+    
 }
