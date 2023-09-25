@@ -30,6 +30,8 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         initComponents();
         armarTabla();
         cargarCombo();
+        borrarFilas();
+        cargarDatos(); 
 
     }
 

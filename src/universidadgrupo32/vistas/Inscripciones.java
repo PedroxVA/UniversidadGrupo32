@@ -33,8 +33,10 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         armarTabla();
         cargarCombo();
         jRMatInscriptas.setSelected(true);
+        jBInscribir.setEnabled(false);
+        jBAnular.setEnabled(true);
         borrarFilas();
-        cargarDatos();;
+        cargarDatos();
     }
 
     
@@ -92,8 +94,18 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         jLMateriasNoInsriptas.setText("Materias no Inscriptas");
 
         jBInscribir.setText("Inscribir");
+        jBInscribir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBInscribirActionPerformed(evt);
+            }
+        });
 
         jBAnular.setText("Anular Inscripción");
+        jBAnular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBAnularActionPerformed(evt);
+            }
+        });
 
         jBSalir.setText("Salir");
 
@@ -206,14 +218,49 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         jRMatNoInscriptas.setSelected(false);
         borrarFilas();
         cargarDatos();;
+        jBInscribir.setEnabled(false);
+        jBAnular.setEnabled(true);
     }//GEN-LAST:event_jRMatInscriptasActionPerformed
 
     private void jRMatNoInscriptasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRMatNoInscriptasActionPerformed
         // TODO add your handling code here:
         jRMatInscriptas.setSelected(false);
         borrarFilas();
-        cargarDatos();;
+        cargarDatos();
+        jBInscribir.setEnabled(true);
+        jBAnular.setEnabled(false);
     }//GEN-LAST:event_jRMatNoInscriptasActionPerformed
+
+    private void jBInscribirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBInscribirActionPerformed
+        // TODO add your handling code here:
+        int id = (int)(jTTabla.getValueAt(jTTabla.getSelectedRow(), 0));
+        String nombre =(String)(jTTabla.getValueAt(jTTabla.getSelectedRow(), 1));
+        int anio = (int)(jTTabla.getValueAt(jTTabla.getSelectedRow(), 2));
+        
+        Materia mat = new Materia(id , nombre, anio, true);    
+        Alumno alu = (Alumno) jComboBox1.getSelectedItem();
+        
+        Inscripcion insc = new Inscripcion(alu, mat, 0);
+        insData.guardarInscripcion(insc);
+        borrarFilas();
+        cargarDatos();
+
+        
+        
+        
+    }//GEN-LAST:event_jBInscribirActionPerformed
+
+    private void jBAnularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBAnularActionPerformed
+        // TODO add your handling code here:
+        Alumno alu = (Alumno)jComboBox1.getSelectedItem();
+        int idAlu = alu.getIdAlumno();
+        
+        int idMat =(int) jTTabla.getValueAt(jTTabla.getSelectedRow(), 0);
+        
+        insData.borrarInscripcionMateriaAlumno(idAlu, idMat);
+        borrarFilas();
+        cargarDatos();
+    }//GEN-LAST:event_jBAnularActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -259,7 +306,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         //Luego su id;
         int id = alumno.getIdAlumno();
         
-        //Segundo, crear una lista de inscripcion usando el id;
+        //Segundo, crear una lista de materias usando el id;
         List<Materia> listaMaterias = new ArrayList();
         if (jRMatInscriptas.isSelected()){
         listaMaterias = insData.obtenerMateriasCursadas(id);}
@@ -267,7 +314,7 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         listaMaterias = insData.obtenerMateriasNOCursadas(id);
         }
         
-        //Tercero, cargar -----------cada inscripcion------------- a la tabla
+        //Tercero, cargar -----------cada materia------------- a la tabla
         //A traves de un bucle;
         for (Materia mat : listaMaterias) {
             int idMat = mat.getIdMateria();

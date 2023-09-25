@@ -25,9 +25,10 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
      */
     public ListadoDeAlumnos() {
         initComponents();
+        crearModeloTabla();
         cargarCombo();
         cargarDatos();
-        crearModeloTabla();
+        
     }
 
     /**
@@ -192,7 +193,7 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
     }
     
     private void cargarDatos(){
-         tableModel.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+      tableModel.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
     Materia selectedMateria = (Materia) jComboBox1.getSelectedItem();
     if (selectedMateria != null) {
         List<Alumno> alumnos = alumnoData.listarAlumnosPorMateria(selectedMateria.getIdMateria());
