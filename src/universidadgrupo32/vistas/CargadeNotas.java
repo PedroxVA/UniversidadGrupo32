@@ -83,6 +83,11 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         jLCargadeNotas.setText("Carga de Notas");
 
         jBGuardar.setText("Guardar");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
 
         jBSalir.setText("Salir");
         jBSalir.addActionListener(new java.awt.event.ActionListener() {
@@ -157,6 +162,29 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         borrarFilas();
         cargarDatos(); 
     }//GEN-LAST:event_jCBAlumnosActionPerformed
+
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+        Alumno alu = (Alumno)jCBAlumnos.getSelectedItem();
+        int codmat = (int)jTNotas.getValueAt(jTNotas.getSelectedRow(), 0);
+        String nombreMat = (String)jTNotas.getValueAt(jTNotas.getSelectedRow(), 1); 
+        List<Inscripcion> listaInsc = insData.obtenerInscripcionesPorAlumno(alu.getIdAlumno());
+        Materia mat = new Materia ();
+        for (Inscripcion inscripcion : listaInsc) {
+            if (inscripcion.getMateria().getNombre().equals(nombreMat)){
+                mat = inscripcion.getMateria();
+            } 
+            
+        }
+ 
+              
+        int idAlu = alu.getIdAlumno();
+        int idMat = mat.getIdMateria();
+        double nota = (double)jTNotas.getValueAt(jTNotas.getSelectedRow(), 2);
+        insData.actualizarNota(idAlu, idMat, nota);
+        
+        borrarFilas();
+        cargarDatos(); 
+    }//GEN-LAST:event_jBGuardarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
