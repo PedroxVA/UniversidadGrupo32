@@ -8,7 +8,11 @@ package universidadgrupo32.vistas;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import universidadgrupo32.accesoADatos.AlumnoData;
+import universidadgrupo32.accesoADatos.InscripcionData;
+import universidadgrupo32.accesoADatos.MateriaData;
 import universidadgrupo32.entidades.Alumno;
+import universidadgrupo32.entidades.Inscripcion;
+import universidadgrupo32.entidades.Materia;
 
 /**
  *
@@ -17,6 +21,8 @@ import universidadgrupo32.entidades.Alumno;
 public class CargadeNotas extends javax.swing.JInternalFrame {
     private DefaultTableModel modelo=new DefaultTableModel();
     private AlumnoData aluData = new AlumnoData();
+    private MateriaData matData = new MateriaData();
+    private InscripcionData insData = new InscripcionData(matData,aluData);
     /**
      * Creates new form CargadeNotas
      */
@@ -24,7 +30,7 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         initComponents();
         armarTabla();
         cargarCombo();
-        cargarDatos();
+
     }
 
     /**
@@ -63,6 +69,12 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         ));
         jScrollPane1.setViewportView(jTNotas);
 
+        jCBAlumnos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBAlumnosActionPerformed(evt);
+            }
+        });
+
         jLSeleccionAlumno.setText("Seleccione un alumno: ");
 
         jLCargadeNotas.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -71,39 +83,44 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         jBGuardar.setText("Guardar");
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(25, Short.MAX_VALUE)
-                .addComponent(jLSeleccionAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jCBAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 157, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(101, 101, 101))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jLCargadeNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jBGuardar)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jBSalir)
-                .addGap(65, 65, 65))
+                .addGap(110, 110, 110))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                            .addGap(28, 28, 28)
+                            .addComponent(jLSeleccionAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(61, 61, 61)
+                            .addComponent(jCBAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(179, 179, 179)
+                        .addComponent(jLCargadeNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(34, Short.MAX_VALUE)
+                .addGap(30, 30, 30)
                 .addComponent(jLCargadeNotas, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBAlumnos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLSeleccionAlumno, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -130,6 +147,15 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jCBAlumnosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBAlumnosActionPerformed
+        borrarFilas();
+        cargarDatos(); 
+    }//GEN-LAST:event_jCBAlumnosActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBGuardar;
@@ -152,11 +178,27 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
     private void cargarCombo(){
         List<Alumno> listaAlumnos = aluData.listarAlumnos();
         for (Alumno alumno : listaAlumnos) {
-            jCBAlumnos.addItem(alumno);
+        jCBAlumnos.addItem(alumno);
         }
     }
     
     private void cargarDatos(){
-        
+        Alumno alumno = (Alumno)jCBAlumnos.getSelectedItem();
+        List<Inscripcion> listaInscripcion = insData.obtenerInscripcionesPorAlumno(alumno.getIdAlumno());
+        for (Inscripcion inscripcion : listaInscripcion){
+            double nota = inscripcion.getNota();
+            int idIns = inscripcion.getIdInscripcion();
+            String nombreMat =inscripcion.getMateria().getNombre();
+             
+            modelo.addRow(new Object[]{idIns,nombreMat,nota});
+        }
+
     }
+    
+        private void borrarFilas(){
+        int filas = jTNotas.getRowCount()-1;
+        for (int f = filas; f>=0; f--){
+            modelo.removeRow(f);
+        }
+    } 
 }
