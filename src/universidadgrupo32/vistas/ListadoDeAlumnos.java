@@ -17,9 +17,13 @@ import universidadgrupo32.entidades.Materia;
  */
 public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
 
-        private MateriaData matData = new MateriaData();
-        private AlumnoData alumnoData = new AlumnoData();
-        private DefaultTableModel tableModel;
+    private MateriaData matData = new MateriaData();
+    private AlumnoData alumnoData = new AlumnoData();
+    private DefaultTableModel tableModel;
+     //List<Alumno> listaAlumnos = alumnoData.listarAlumnos();
+    private List<Alumno> listaAlumnos;
+
+
     /**
      * Creates new form ListadoDeAlumnos
      */
@@ -27,8 +31,8 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
         initComponents();
         crearModeloTabla();
         cargarCombo();
-        cargarDatos();
         
+  
     }
 
     /**
@@ -165,9 +169,7 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        
-        
-        cargarDatos();
+         cargarDatos();
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void jTable1AncestorAdded(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jTable1AncestorAdded
@@ -186,32 +188,47 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
     private void cargarCombo(){
-        List<Materia> listaMaterias = matData.listarMaterias();
-        for (Materia materia : listaMaterias) {
+    /*jComboBox1.removeAllItems(); // Limpiar el combo box antes de cargar nuevos datos
+    List<Materia> listarMaterias = matData.listarMaterias();
+    for (Materia materia : listarMaterias) {
+    jComboBox1.addItem(materia); // Agregar el nombre de la materia al combo box
+    }*/
+     jComboBox1.removeAllItems();
+        List<Materia> listarMaterias = matData.listarMaterias();
+        for (Materia materia : listarMaterias) {
             jComboBox1.addItem(materia);
         }
-    }
+}
     
     private void cargarDatos(){
-      tableModel.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
-    Materia selectedMateria = (Materia) jComboBox1.getSelectedItem();
-    if (selectedMateria != null) {
-        List<Alumno> alumnos = alumnoData.listarAlumnosPorMateria(selectedMateria.getIdMateria());
+    /*tableModel.setRowCount(0); // Limpiar la tabla antes de cargar nuevos datos
+    Materia materiaSeleccionada = (Materia) jComboBox1.getSelectedItem(); // Obtener la materia seleccionada
+
+    if (materiaSeleccionada != null) {
+        // Obtener la lista de alumnos para la materia seleccionada
+        List<Alumno> alumnos = alumnoData.listarAlumnos();
+
         for (Alumno alumno : alumnos) {
             tableModel.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
         }
-    }
+    }*/
+    tableModel.setRowCount(0);
+        Materia materiaSeleccionada = (Materia) jComboBox1.getSelectedItem();
+
+        if (materiaSeleccionada != null) {
+            listaAlumnos = alumnoData.listarAlumnosPorMateria(materiaSeleccionada.getIdMateria());
+
+            for (Alumno alumno : listaAlumnos) {
+                tableModel.addRow(new Object[]{alumno.getIdAlumno(), alumno.getDni(), alumno.getApellido(), alumno.getNombre()});
+            }
+        }
 }
-    
-    
     private void crearModeloTabla() {
-        tableModel = new DefaultTableModel();
+          tableModel = new DefaultTableModel();
         tableModel.addColumn("Id");
-          tableModel.addColumn("DNI");
-            tableModel.addColumn("Apellido");
-              tableModel.addColumn("Nombre");
-              jTable1.setModel(tableModel);
-        
+        tableModel.addColumn("DNI");
+        tableModel.addColumn("Apellido");
+        tableModel.addColumn("Nombre");
+        jTable1.setModel(tableModel);
     }
-    
 }

@@ -105,6 +105,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu3);
 
         jMenu4.setText("Consultas");
+        jMenu4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu4ActionPerformed(evt);
+            }
+        });
 
         jMenuItem6.setText("Alumnos por Materia");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -203,6 +208,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
        dispose(); // TODO add your handling code here:
     }//GEN-LAST:event_jMenu5MouseClicked
+
+    private void jMenu4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu4ActionPerformed
+        // TODO add your handling code here:
+         escritorio.removeAll();
+        escritorio.repaint();
+        ListadoDeAlumnos lda=new ListadoDeAlumnos();
+        lda.setVisible(true);
+        escritorio.add(lda);
+        lda.moveToFront();
+    }//GEN-LAST:event_jMenu4ActionPerformed
 //
     /**
      * @param args the command line arguments

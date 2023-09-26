@@ -126,7 +126,29 @@ public class MateriaData {
         
         return listaMaterias;
     }
-    
+        public List<Materia> listarMateria() {
+        String sql = "SELECT idMateria, nombre FROM materia";
+        ArrayList<Materia> materias = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                Materia materia = new Materia();
+                materia.setIdMateria(rs.getInt("idMateria"));
+                materia.setNombre(rs.getString("nombre"));
+
+                materias.add(materia);
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla materia");
+        }
+
+        return materias;
+    }
     public static void main(String[] args) {
         Materia materia = new Materia("Ética y Ciudadanía", 1, true);
         MateriaData mate = new MateriaData();

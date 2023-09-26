@@ -171,6 +171,40 @@ public class AlumnoData {
         return alumnos;
    
     }
+ public List<Alumno> listarAlumnosPorMateria(int idMateria) {
+    String sql = "SELECT alumno.idAlumno, alumno.dni, alumno.apellido, alumno.nombre, alumno.fechaNacimiento FROM alumno "
+               + "INNER JOIN inscripcion ON alumno.idAlumno = inscripcion.idAlumno "
+               + "WHERE inscripcion.idMateria = ? AND alumno.estado = 1";
+    ArrayList<Alumno> alumnos = new ArrayList<>();
+
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, idMateria);
+        ResultSet rs = ps.executeQuery();
+
+        while (rs.next()) {
+            Alumno alumno = new Alumno();
+            alumno.setIdAlumno(rs.getInt("alumno.idAlumno")); // Calificar la columna con el alias de la tabla
+            alumno.setDni(rs.getInt("alumno.dni")); // Calificar la columna con el alias de la tabla
+            alumno.setApellido(rs.getString("alumno.apellido")); // Calificar la columna con el alias de la tabla
+            alumno.setNombre(rs.getString("alumno.nombre")); // Calificar la columna con el alias de la tabla
+            alumno.setFechaNac(rs.getDate("alumno.fechaNacimiento").toLocalDate()); // Calificar la columna con el alias de la tabla
+            alumno.setActivo(true);
+
+            alumnos.add(alumno);
+        }
+
+        ps.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumno");
+    }
+
+    return alumnos;
+}
+
+  
+ 
+ 
     
     
     public static void main(String[] args) {
@@ -196,10 +230,7 @@ public class AlumnoData {
         //}
     }
 
-    public List<Alumno> listarAlumnosPorMateria(int idMateria) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-}
+   }
 
 
 
