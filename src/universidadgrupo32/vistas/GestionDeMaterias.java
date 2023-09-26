@@ -4,18 +4,22 @@
  * and open the template in the editor.
  */
 package universidadgrupo32.vistas;
-
+import universidadgrupo32.accesoADatos.MateriaData;
+import universidadgrupo32.entidades.Materia;
+import java.util.List;
+import javax.swing.JOptionPane;
 /**
  *
  * @author jfneg
  */
 public class GestionDeMaterias extends javax.swing.JInternalFrame {
-
+  private MateriaData materiaData;
     /**
      * Creates new form GestionDeMaterias
      */
     public GestionDeMaterias() {
         initComponents();
+         materiaData = new MateriaData();
     }
 
     /**
@@ -61,10 +65,20 @@ public class GestionDeMaterias extends javax.swing.JInternalFrame {
         jLMateria.setText("Materia");
 
         jBEliminar.setText("Eliminar");
+        jBEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBEliminarActionPerformed(evt);
+            }
+        });
 
         jLCodigo.setText("Código");
 
         jBGuardar.setText("Guardar");
+        jBGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBGuardarActionPerformed(evt);
+            }
+        });
 
         jTCodigo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,16 +197,64 @@ public class GestionDeMaterias extends javax.swing.JInternalFrame {
 
     private void jBBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBBuscarActionPerformed
         // TODO add your handling code here:
+         int id = Integer.parseInt(jTCodigo.getText());
+
+        Materia materiaEncontrada = materiaData.buscarMateria(id);
+
+        if (materiaEncontrada != null) {
+            jTNombreMateria.setText(materiaEncontrada.getNombre());
+            jTAnio.setText(String.valueOf(materiaEncontrada.getAnioMateria()));
+            jRadioButton1.setSelected(materiaEncontrada.isActivo());
+        } else {
+            JOptionPane.showMessageDialog(null, "Materia no encontrada");
+        }
+
     }//GEN-LAST:event_jBBuscarActionPerformed
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
         // TODO add your handling code here:
+        jTCodigo.setText("");
+        jTNombreMateria.setText("");
+        jTAnio.setText("");
+        jRadioButton1.setSelected(false);
+        jBNuevo.setEnabled(false);
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
+        // TODO add your handling code here:
+       String nombre = jTNombreMateria.getText();
+        int anio = Integer.parseInt(jTAnio.getText());
+        boolean estado = jRadioButton1.isSelected();
+
+        Materia nuevaMateria = new Materia(nombre, anio, estado);
+
+        materiaData.guardarMateria(nuevaMateria);
+
+        jTCodigo.setText("");
+        jTNombreMateria.setText("");
+        jTAnio.setText("");
+        jRadioButton1.setSelected(false);
+        jBNuevo.setEnabled(true);
+
+    }//GEN-LAST:event_jBGuardarActionPerformed
+
+    private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
+        // TODO add your handling code here:
+        int id = Integer.parseInt(jTCodigo.getText());
+
+        materiaData.eliminarMateria(id);
+
+        jTCodigo.setText("");
+        jTNombreMateria.setText("");
+        jTAnio.setText("");
+        jRadioButton1.setSelected(false);
+        jBNuevo.setEnabled(true);
+    }//GEN-LAST:event_jBEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
