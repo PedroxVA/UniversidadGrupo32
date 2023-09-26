@@ -7,6 +7,8 @@ package universidadgrupo32.vistas;
 
 import java.awt.HeadlessException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import javax.swing.JOptionPane;
 import universidadgrupo32.accesoADatos.AlumnoData;
 import universidadgrupo32.entidades.Alumno;
@@ -18,12 +20,14 @@ import universidadgrupo32.entidades.Alumno;
 public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
     private AlumnoData alu = new AlumnoData();
+    private Alumno alumnoActual = null;
 
     /**
      * Creates new form GestionDeAlumnos
      */
     public GestionDeAlumnos() {
         initComponents();
+        jBNuevo.setEnabled(false);
     }
 
     
@@ -67,6 +71,12 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
         jLabel2.setText("Documento");
 
+        jTDocumento.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTDocumentoKeyTyped(evt);
+            }
+        });
+
         jBBuscar.setText("Buscar");
         jBBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -76,9 +86,9 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Apellido");
 
-        jTApellido.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTApellidoActionPerformed(evt);
+        jTApellido.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTApellidoKeyTyped(evt);
             }
         });
 
@@ -95,9 +105,9 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
         jLabel7.setText("Fecha de Nacimiento");
 
-        jTNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTNombreActionPerformed(evt);
+        jTNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTNombreKeyTyped(evt);
             }
         });
 
@@ -144,7 +154,9 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                         .addComponent(jTDocumento))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel3)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel5))
                         .addGap(55, 55, 55)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -159,7 +171,6 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
                         .addGap(24, 24, 24))
@@ -210,7 +221,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                     .addComponent(jBEliminar)
                     .addComponent(jBGuardar)
                     .addComponent(jBSalir))
-                .addGap(0, 41, Short.MAX_VALUE))
+                .addGap(0, 45, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -227,14 +238,6 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTApellidoActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTApellidoActionPerformed
-
-    private void jTNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTNombreActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTNombreActionPerformed
-
     private void jREstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jREstadoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jREstadoActionPerformed
@@ -250,15 +253,21 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
             //Luego se colocan los datos en sus respectivos campos.
             Alumno alumno = alu.buscarAlumnoPorDni(dni);
             jTApellido.setText(alumno.getApellido());
-                jTNombre.setText(alumno.getNombre());
-                jREstado.setSelected(alumno.getActivo());
-                jDCFechaNac.setDate(Date.valueOf(alumno.getFechaNac()));
+            jTNombre.setText(alumno.getNombre());
+            jREstado.setSelected(alumno.getActivo());
+            jDCFechaNac.setDate(Date.valueOf(alumno.getFechaNac()));
+
+            alumnoActual.setDni(alumno.getDni());
+            alumnoActual.setNombre(alumno.getNombre());
+            alumnoActual.setApellido(alumno.getApellido());
+            alumnoActual.setActivo(alumno.getActivo());
+            alumnoActual.setFechaNac(alumno.getFechaNac());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "ERROR, campo Dni vacío o con letras.");
             
         } catch (NullPointerException e) {
         }
-        
+            
     }//GEN-LAST:event_jBBuscarActionPerformed
 
     private void jBEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBEliminarActionPerformed
@@ -283,10 +292,37 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         jTApellido.setText(null);
         jREstado.setSelected(false);
         jDCFechaNac.setDate(null);
+        jBNuevo.setEnabled(false);
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
         // TODO add your handling code here:
+        try {
+           int dni = Integer.parseInt(jTDocumento.getText());
+        String nombre = (String) jTNombre.getText();
+        String apellido = (String) jTApellido.getText();
+        if(nombre.isEmpty() || apellido.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No puede haber campos vacíos.");
+            return;
+        }
+        Boolean activo = jREstado.isSelected();
+        LocalDate fechaNac = jDCFechaNac.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        if(alumnoActual==null){
+            alumnoActual = new Alumno(dni, apellido, nombre, fechaNac, activo);
+             alu.guardarAlumno(alumnoActual);
+        }else{
+            alumnoActual.setDni(dni);
+            alumnoActual.setNombre(nombre);
+            alumnoActual.setApellido(apellido);
+            alumnoActual.setActivo(activo);
+            alumnoActual.setFechaNac(fechaNac);
+            alu.modificarAlumno(alumnoActual);
+        } 
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un DNI válido.");
+        }
+        
+        
         
     }//GEN-LAST:event_jBGuardarActionPerformed
 
@@ -294,6 +330,21 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         dispose();
     }//GEN-LAST:event_jBSalirActionPerformed
+
+    private void jTDocumentoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTDocumentoKeyTyped
+        // TODO add your handling code here:
+        jBNuevo.setEnabled(true);
+    }//GEN-LAST:event_jTDocumentoKeyTyped
+
+    private void jTApellidoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTApellidoKeyTyped
+        // TODO add your handling code here:
+        jBNuevo.setEnabled(true);
+    }//GEN-LAST:event_jTApellidoKeyTyped
+
+    private void jTNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTNombreKeyTyped
+        // TODO add your handling code here:
+        jBNuevo.setEnabled(true);
+    }//GEN-LAST:event_jTNombreKeyTyped
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
