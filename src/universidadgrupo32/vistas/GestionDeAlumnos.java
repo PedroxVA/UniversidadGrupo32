@@ -257,11 +257,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
             jREstado.setSelected(alumno.getActivo());
             jDCFechaNac.setDate(Date.valueOf(alumno.getFechaNac()));
 
-            alumnoActual.setDni(alumno.getDni());
-            alumnoActual.setNombre(alumno.getNombre());
-            alumnoActual.setApellido(alumno.getApellido());
-            alumnoActual.setActivo(alumno.getActivo());
-            alumnoActual.setFechaNac(alumno.getFechaNac());
+            alumnoActual = alu.buscarAlumnoPorDni(dni);
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null, "ERROR, campo Dni vacío o con letras.");
             
