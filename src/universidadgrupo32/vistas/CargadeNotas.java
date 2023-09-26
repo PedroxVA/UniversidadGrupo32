@@ -6,6 +6,7 @@
 package universidadgrupo32.vistas;
 
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import universidadgrupo32.accesoADatos.AlumnoData;
 import universidadgrupo32.accesoADatos.InscripcionData;
@@ -181,10 +182,17 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
         int idMat = mat.getIdMateria();
         String notaS = (String)jTNotas.getValueAt(jTNotas.getSelectedRow(), 2);
         Double nota = Double.parseDouble(notaS);
+        
+        if (nota > 10) {
+            JOptionPane.showMessageDialog(null,"La nota debe ser menor ó igual a 10" );
+        }
+        else{
         insData.actualizarNota(idAlu, idMat, nota);
         
         borrarFilas();
-        cargarDatos(); 
+        cargarDatos();
+        
+        }
     }//GEN-LAST:event_jBGuardarActionPerformed
 
 
