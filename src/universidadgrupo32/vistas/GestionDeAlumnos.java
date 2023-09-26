@@ -272,7 +272,8 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         
         int dni = Integer.valueOf(jTDocumento.getText());
         alu.eliminarAlumno(dni);
-        JOptionPane.showMessageDialog(null, "Alumno eliminado correctamente.");
+        alumnoActual = null;
+        limpiarCampos();
     } catch (NumberFormatException e) {
         JOptionPane.showMessageDialog(null, "Por favor, ingresa un ID válido.");
     } catch (HeadlessException ex) {
@@ -283,12 +284,7 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
 
     private void jBNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBNuevoActionPerformed
         // TODO add your handling code here:
-        jTDocumento.setText(null);
-        jTNombre.setText(null);
-        jTApellido.setText(null);
-        jREstado.setSelected(false);
-        jDCFechaNac.setDate(null);
-        jBNuevo.setEnabled(false);
+        limpiarCampos();
     }//GEN-LAST:event_jBNuevoActionPerformed
 
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
@@ -363,4 +359,14 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jTDocumento;
     private javax.swing.JTextField jTNombre;
     // End of variables declaration//GEN-END:variables
+
+    
+    private void limpiarCampos(){
+       jTDocumento.setText(null);
+        jTNombre.setText(null);
+        jTApellido.setText(null);
+        jREstado.setSelected(false);
+        jDCFechaNac.setDate(null);
+        jBNuevo.setEnabled(false); 
+    }
 }
