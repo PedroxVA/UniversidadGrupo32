@@ -53,11 +53,11 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         jDCFechaNac = new com.toedter.calendar.JDateChooser();
         jBNuevo = new javax.swing.JButton();
         jBEliminar = new javax.swing.JButton();
+        jBSalir = new javax.swing.JButton();
 
         jLabel4.setText("jLabel4");
 
         setBackground(new java.awt.Color(68, 164, 132));
-        setClosable(true);
 
         jPanel1.setBackground(new java.awt.Color(68, 164, 132));
 
@@ -121,6 +121,13 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
             }
         });
 
+        jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -149,26 +156,26 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                 .addGap(32, 32, 32))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel6)
                             .addComponent(jLabel7))
-                        .addGap(14, 14, 14))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(24, 24, 24))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jBNuevo)
-                        .addGap(29, 29, 29)))
-                .addGap(10, 10, 10)
+                        .addGap(18, 18, 18)
+                        .addComponent(jBEliminar)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jREstado)
                     .addComponent(jDCFechaNac, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(10, 10, 10)
-                        .addComponent(jBEliminar)
-                        .addGap(39, 39, 39)
-                        .addComponent(jBGuardar)))
+                        .addGap(19, 19, 19)
+                        .addComponent(jBGuardar)
+                        .addGap(32, 32, 32)
+                        .addComponent(jBSalir)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -201,8 +208,9 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jBNuevo)
                     .addComponent(jBEliminar)
-                    .addComponent(jBGuardar))
-                .addGap(0, 37, Short.MAX_VALUE))
+                    .addComponent(jBGuardar)
+                    .addComponent(jBSalir))
+                .addGap(0, 41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -282,12 +290,18 @@ public class GestionDeAlumnos extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jBGuardarActionPerformed
 
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBBuscar;
     private javax.swing.JButton jBEliminar;
     private javax.swing.JButton jBGuardar;
     private javax.swing.JButton jBNuevo;
+    private javax.swing.JButton jBSalir;
     private com.toedter.calendar.JDateChooser jDCFechaNac;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -44,7 +44,6 @@ public class GestionDeMaterias extends javax.swing.JInternalFrame {
         jLAnio = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(68, 164, 132));
-        setClosable(true);
 
         jPanel1.setBackground(new java.awt.Color(68, 164, 132));
 

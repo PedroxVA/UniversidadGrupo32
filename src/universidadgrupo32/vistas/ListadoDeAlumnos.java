@@ -53,7 +53,6 @@ public class ListadoDeAlumnos extends javax.swing.JInternalFrame {
         jBSalir = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(62, 168, 132));
-        setClosable(true);
 
         jPanel1.setBackground(new java.awt.Color(68, 164, 132));
 

@@ -65,7 +65,6 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         jLSeleccionAlumno = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(68, 164, 132));
-        setClosable(true);
 
         jPanel1.setBackground(new java.awt.Color(68, 164, 132));
 
@@ -108,6 +107,11 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         });
 
         jBSalir.setText("Salir");
+        jBSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBSalirActionPerformed(evt);
+            }
+        });
 
         jLFormularioInscrip.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLFormularioInscrip.setText("Formulario de Inscripción");
@@ -261,6 +265,11 @@ public class Inscripciones extends javax.swing.JInternalFrame {
         borrarFilas();
         cargarDatos();
     }//GEN-LAST:event_jBAnularActionPerformed
+
+    private void jBSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBSalirActionPerformed
+        // TODO add your handling code here:
+        dispose();
+    }//GEN-LAST:event_jBSalirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
