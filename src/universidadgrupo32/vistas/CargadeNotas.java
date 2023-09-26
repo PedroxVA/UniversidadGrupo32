@@ -165,6 +165,7 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
     private void jBGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBGuardarActionPerformed
         Alumno alu = (Alumno)jCBAlumnos.getSelectedItem();
         int codmat = (int)jTNotas.getValueAt(jTNotas.getSelectedRow(), 0);
+        
         String nombreMat = (String)jTNotas.getValueAt(jTNotas.getSelectedRow(), 1); 
         List<Inscripcion> listaInsc = insData.obtenerInscripcionesPorAlumno(alu.getIdAlumno());
         Materia mat = new Materia ();
@@ -178,7 +179,8 @@ public class CargadeNotas extends javax.swing.JInternalFrame {
               
         int idAlu = alu.getIdAlumno();
         int idMat = mat.getIdMateria();
-        double nota = (double)jTNotas.getValueAt(jTNotas.getSelectedRow(), 2);
+        String notaS = (String)jTNotas.getValueAt(jTNotas.getSelectedRow(), 2);
+        Double nota = Double.parseDouble(notaS);
         insData.actualizarNota(idAlu, idMat, nota);
         
         borrarFilas();
