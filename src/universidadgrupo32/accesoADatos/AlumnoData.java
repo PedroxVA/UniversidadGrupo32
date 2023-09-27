@@ -43,7 +43,9 @@ public class AlumnoData {
             ps.close();
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al acceder a la tabla alumno.");
-        }      
+        } catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Dni repetido.");
+        }     
     }
     
     public void modificarAlumno(Alumno alumno){
